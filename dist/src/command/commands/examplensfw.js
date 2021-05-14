@@ -1,8 +1,9 @@
 const { Command } = require("../Command");
 module.exports = new Command({
-    name: "example",
+    name: "examplensfw",
+    nsfw: true,
     onCommand(ctx) {
         console.log(ctx);
-        ctx.msg.reply(`Example!`);
+        ctx.msg.reply(`Example! NSFW`);
     }
 });

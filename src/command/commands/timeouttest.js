@@ -1,9 +1,10 @@
 const { Command } = require("../Command");
 
 module.exports = new Command({
-  name: "example",
+  name: "timeouttest",
   onCommand(ctx) {
     console.log(ctx);
-    ctx.msg.reply(`Example!`);
+    ctx.msg.reply(`timeouttest!`);
+    ctx.setCoolDown(5000);
   }
 });

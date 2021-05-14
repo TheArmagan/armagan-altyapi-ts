@@ -18,6 +18,7 @@ interface IOnCommandArgument {
     msg: Message;
     args: Result;
     ul: Underline;
+    prefix: string;
 }
 export declare class Command {
     onCommand: (arg0: IOnCommandArgument) => any;

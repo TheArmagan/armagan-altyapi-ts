@@ -19,7 +19,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandManager = void 0;
 const promises_1 = require("fs/promises");
 const path_1 = require("path");
+const path = require("path");
 const chillout = require("chillout");
+const plsargs_1 = require("plsargs");
+const rfdcBase = require("rfdc");
+const rfdc = rfdcBase();
 class CommandManager {
     constructor(ul) {
         _loadCommands.set(this, () => __awaiter(this, void 0, void 0, function* () {
@@ -32,10 +36,11 @@ class CommandManager {
                 cmd.filePath = commandFilePath;
                 if (this.commands.has(cmd.name)) {
                     let ogCmd = this.commands.get(cmd.name);
-                    throw new Error(`An command already loaded with name "${cmd.name}". (${ogCmd.filePath}, ${commandFilePath})`);
+                    throw new Error(`A command already loaded with name "${cmd.name}". (${path.parse(ogCmd.filePath).base}, ${path.parse(commandFilePath).base})`);
                 }
                 if (typeof cmd.onCommand != "function")
                     throw new TypeError(`Every command should have onCommand function. (${cmd.name})`);
+                cmd.aliases.unshift(cmd.name);
                 this.commands.set(cmd.name, cmd);
                 if (typeof cmd.onLoad == "function")
                     yield cmd.onLoad(this.ul);
@@ -45,15 +50,15 @@ class CommandManager {
         }));
         _startMessageListener.set(this, () => {
             console.log("Starting to listen for the commands!");
-            this.ul.client.on("message", this.handleMessage);
+            this.ul.client.on("message", (msg) => {
+                this.handleMessage(msg);
+            });
             if (this.ul.options.listenForEdits) {
                 this.ul.client.on("messageUpdate", (_, newMsg) => {
                     this.handleMessage(newMsg);
                 });
             }
-        }
-        // @ts-ignore for now
-        );
+        });
         this.ul = ul;
         this.commands = new Map();
     }
@@ -63,10 +68,34 @@ class CommandManager {
             __classPrivateFieldGet(this, _startMessageListener).call(this);
         });
     }
-    // @ts-ignore for now
     handleMessage(msg) {
-        // let args = plsParse(msg.content);
-        // let { prefixes } = this.ul.options;
+        let { prefixes } = this.ul.options;
+        let argsOg = plsargs_1.plsParseArgs(msg.content);
+        this.commands.forEach((cmd) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            let args = rfdc(argsOg);
+            console.log(cmd);
+            if (!cmd.enabled)
+                return;
+            let usedPrefix = "";
+            yield chillout.forEach(prefixes, i => {
+                let prefix = args._[0].slice(0, i.length);
+                if (prefix == i)
+                    usedPrefix = i;
+                return prefix == i;
+            });
+            if (usedPrefix.length == 0)
+                return;
+            args._[0] = args._[0].slice(usedPrefix.length);
+            if (args._[0].length == 0)
+                args._.shift();
+            if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase()))
+                return;
+            if (cmd.nsfw && !((_a = msg.channel) === null || _a === void 0 ? void 0 : _a.nsfw)) {
+                return this.ul.options.message.nsfwRequiredMessage(msg);
+            }
+            cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix });
+        }));
     }
 }
 exports.CommandManager = CommandManager;

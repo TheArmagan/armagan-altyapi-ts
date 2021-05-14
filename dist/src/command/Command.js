@@ -11,7 +11,7 @@ class Command {
         this.name = args.name;
         this.aliases = (_c = args.aliases) !== null && _c !== void 0 ? _c : [];
         this.usages = (_d = args.usages) !== null && _d !== void 0 ? _d : [];
-        this.enabled = (_e = args.enabled) !== null && _e !== void 0 ? _e : false;
+        this.enabled = (_e = args.enabled) !== null && _e !== void 0 ? _e : true;
         this.ownerOnly = (_f = args.ownerOnly) !== null && _f !== void 0 ? _f : false;
         this.botPermissions = (_g = args.botPermissions) !== null && _g !== void 0 ? _g : [];
         this.userPermissions = (_h = args.userPermissions) !== null && _h !== void 0 ? _h : [];
