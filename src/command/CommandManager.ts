@@ -101,11 +101,11 @@ export class CommandManager {
         return this.ul.options.messages.nsfwRequiredMessage(msg);
       }
 
-      if (cmd.requiredBotPermissions.length != 0 && cmd.requiredBotPermissions.every(i=>msg.guild.me.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
+      if (cmd.requiredBotPermissions.length != 0 && cmd.requiredBotPermissions.some(i=>!msg.guild.me.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
         return this.ul.options.messages.botPermissionsRequiredMessage(msg, cmd.requiredBotPermissions);
       }
 
-      if (cmd.requiredUserPermissions.length != 0 && cmd.requiredUserPermissions.every(i=>msg.member.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
+      if (cmd.requiredUserPermissions.length != 0 && cmd.requiredUserPermissions.some(i=>!msg.member.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
         return this.ul.options.messages.userPermissionsRequiredMessage(msg, cmd.requiredUserPermissions);
       }
 
