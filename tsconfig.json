@@ -1,0 +1,46 @@
+{
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"lib": [
+			"ES2015",
+			"esnext"
+		],
+
+		"rootDir": "src",
+		"outDir": "dist/src",
+
+		"strict": false,
+		"alwaysStrict": false,
+		"strictFunctionTypes": false,
+		"strictNullChecks": false,
+		"strictPropertyInitialization": false,
+
+		"forceConsistentCasingInFileNames": true,
+
+		"noImplicitAny": false,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"downlevelIteration": true,
+		"declaration": true,
+
+		"allowSyntheticDefaultImports": true,
+
+		"checkJs": true,
+		"allowJs": true,
+
+		"pretty": true
+	},
+	"include": [
+		"typings/**/*",
+		"src/**/*"
+	]
+}
