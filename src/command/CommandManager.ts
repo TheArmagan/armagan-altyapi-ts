@@ -90,20 +90,28 @@ export class CommandManager {
       if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase())) return;
 
       if (cmd.botOwnerOnly && !isBotOwner) {
-        return this.ul.options.message.botOwnerOnlyMessage(msg);
+        return this.ul.options.messages.botOwnerOnlyMessage(msg);
       }
 
       if (cmd.guildOwnerOnly && (msg.member.id == msg.guild.ownerID)) {
-        return this.ul.options.message.botOwnerOnlyMessage(msg);
+        return this.ul.options.messages.botOwnerOnlyMessage(msg);
       }
 
       if (cmd.nsfw && !(msg.channel as TextChannel)?.nsfw) {
-        return this.ul.options.message.nsfwRequiredMessage(msg);
+        return this.ul.options.messages.nsfwRequiredMessage(msg);
+      }
+
+      if (cmd.requiredBotPermissions.length != 0 && cmd.requiredBotPermissions.every(i=>msg.guild.me.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
+        return this.ul.options.messages.botPermissionsRequiredMessage(msg, cmd.requiredBotPermissions);
+      }
+
+      if (cmd.requiredUserPermissions.length != 0 && cmd.requiredUserPermissions.every(i=>msg.member.hasPermission(i, {checkAdmin: true, checkOwner: true}))) {
+        return this.ul.options.messages.userPermissionsRequiredMessage(msg, cmd.requiredUserPermissions);
       }
 
       let coolDownAt = (self.timeoutCache.get(`${msg.author.id}:${cmd.name}`) || 0);
       if (!(Date.now() > coolDownAt)) {
-        return this.ul.options.message.cooldownMessage(msg, coolDownAt - Date.now());
+        return this.ul.options.messages.cooldownMessage(msg, coolDownAt - Date.now());
       }
 
       cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix, isBotOwner, setCoolDown(durationMs=0) {

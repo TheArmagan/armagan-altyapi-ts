@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, PermissionString } from "discord.js";
 import { Result } from "plsargs/src/Result";
 import { Underline } from "../Underline";
 
@@ -12,8 +12,8 @@ interface ICommandClassArguments {
   enabled?: boolean;
   botOwnerOnly?: boolean;
   guildOwnerOnly?: boolean;
-  botPermissions?: string[];
-  userPermissions?: string[];
+  requiredBotPermissions?: PermissionString[];
+  requiredUserPermissions?: PermissionString[];
 }
 
 interface IOnCommandArgument {
@@ -36,8 +36,8 @@ export class Command {
   enabled?: boolean;
   botOwnerOnly?: boolean;
   guildOwnerOnly?: boolean;
-  botPermissions?: string[];
-  userPermissions?: string[];
+  requiredBotPermissions?: PermissionString[];
+  requiredUserPermissions?: PermissionString[];
   filePath: string;
   constructor(args: ICommandClassArguments) {
     this.onCommand = args.onCommand;
@@ -49,7 +49,7 @@ export class Command {
     this.enabled = args.enabled ?? true;
     this.botOwnerOnly = args.botOwnerOnly ?? false;
     this.guildOwnerOnly = args.guildOwnerOnly ?? false;
-    this.botPermissions = args.botPermissions ?? [];
-    this.userPermissions = args.userPermissions ?? [];
+    this.requiredBotPermissions = args.requiredBotPermissions ?? [];
+    this.requiredUserPermissions = args.requiredUserPermissions ?? [];
   }
 }

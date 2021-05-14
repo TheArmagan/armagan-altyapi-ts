@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, PermissionString } from "discord.js";
 
 export class DefaultMessages {
   static cooldownMessage(msg: Message, cooldown: number) {
@@ -15,5 +15,13 @@ export class DefaultMessages {
 
   static guildOwnerOnlyMessage(msg: Message) {
     msg.reply(`You need to be guild owner to use this command!`);
+  }
+
+  static botPermissionsRequiredMessage(msg: Message, perms: PermissionString[]) {
+    msg.reply(`Bot needs ${perms} permissions to work!`);
+  }
+
+  static userPermissionsRequiredMessage(msg: Message, perms: PermissionString[]) {
+    msg.reply(`You need these ${perms} permissions to bot work.`);
   }
 }

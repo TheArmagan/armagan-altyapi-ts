@@ -1,4 +1,4 @@
-import {Client, ClientOptions, Message} from "discord.js"
+import {Client, ClientOptions, Message, PermissionString} from "discord.js"
 import { CommandManager } from "./command/CommandManager";
 import { EventManager } from "./event/EventManager";
 import { DefaultMessages } from "./other/DefaultMessages";
@@ -8,7 +8,7 @@ export interface IUnderlineOptions {
   prefixes: string[];
   owners?: string[];
   listenForEdits?: boolean;
-  message?: IUnderlineMessages;
+  messages?: IUnderlineMessages;
 }
 
 export interface IUnderlineMessages {
@@ -16,6 +16,8 @@ export interface IUnderlineMessages {
   nsfwRequiredMessage?(msg: Message): any;
   botOwnerOnlyMessage?(msg: Message): any;
   guildOwnerOnlyMessage?(msg: Message): any;
+  botPermissionsRequiredMessage?(msg: Message, perms: PermissionString[])
+  userPermissionsRequiredMessage?(msg: Message, perms: PermissionString[])
 }
 
 export class Underline {
@@ -33,22 +35,31 @@ export class Underline {
       prefixes: underlineOptions.prefixes,
       owners: underlineOptions.owners ?? [],
       listenForEdits: underlineOptions.listenForEdits ?? false,
-      message: {
+      messages: {
         cooldownMessage:
-          underlineOptions?.message?.cooldownMessage
+          underlineOptions?.messages?.cooldownMessage
           ?? DefaultMessages.cooldownMessage,
         
         nsfwRequiredMessage:
-          underlineOptions?.message?.nsfwRequiredMessage 
+          underlineOptions?.messages?.nsfwRequiredMessage 
           ?? DefaultMessages.nsfwRequiredMessage,
         
         botOwnerOnlyMessage:
-          underlineOptions?.message?.botOwnerOnlyMessage 
+          underlineOptions?.messages?.botOwnerOnlyMessage 
           ?? DefaultMessages.botOwnerOnlyMessage,
         
         guildOwnerOnlyMessage:
-          underlineOptions?.message?.guildOwnerOnlyMessage 
+          underlineOptions?.messages?.guildOwnerOnlyMessage 
           ?? DefaultMessages.guildOwnerOnlyMessage,
+        
+        botPermissionsRequiredMessage:
+          underlineOptions?.messages?.botPermissionsRequiredMessage
+          ?? DefaultMessages.botPermissionsRequiredMessage,
+        
+        userPermissionsRequiredMessage:
+          underlineOptions?.messages?.userPermissionsRequiredMessage
+          ?? DefaultMessages.userPermissionsRequiredMessage,
+        
       }
     };
     this.client = new Client(clientOptions);
