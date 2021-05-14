@@ -1,8 +1,7 @@
-var Command = require("../Command").Command;
+const { Command } = require("../Command");
 module.exports = new Command({
     name: "example",
-    onCommand: function (_a) {
-        var msg = _a.msg;
+    onCommand({ msg }) {
         msg.reply("Hello!");
     }
 });

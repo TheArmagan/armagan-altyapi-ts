@@ -3,6 +3,7 @@ import { readdir } from "fs/promises";
 import { resolve } from "path";
 import { Command } from "./Command";
 import { Message } from "discord.js";
+// @ts-ignore for now
 import { plsParse } from "plsargs";
 const chillout: any = require("chillout");
 
@@ -50,14 +51,15 @@ export class CommandManager {
     this.ul.client.on("message", this.handleMessage);
 
     if (this.ul.options.listenForEdits) {
-      this.ul.client.on("messageUpdate",(oldMsg, newMsg)=>{
+      this.ul.client.on("messageUpdate",(_, newMsg)=>{
         this.handleMessage(newMsg as Message);
       })
     }
   }
-
-  handleMessage(msg: Message) {
-    let args = plsParse(msg.content);
-    let { prefixes } = this.ul.options;
+  
+  // @ts-ignore for now
+  handleMessage(msg: Message) { 
+    // let args = plsParse(msg.content);
+    // let { prefixes } = this.ul.options;
   }
 }

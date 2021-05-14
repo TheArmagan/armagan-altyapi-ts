@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Command = void 0;
-var Command = /** @class */ (function () {
-    function Command(args) {
+class Command {
+    constructor(args) {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         this.onCommand = args.onCommand;
         this.onLoad = args.onLoad;
@@ -16,6 +16,5 @@ var Command = /** @class */ (function () {
         this.botPermissions = (_g = args.botPermissions) !== null && _g !== void 0 ? _g : [];
         this.userPermissions = (_h = args.userPermissions) !== null && _h !== void 0 ? _h : [];
     }
-    return Command;
-}());
+}
 exports.Command = Command;

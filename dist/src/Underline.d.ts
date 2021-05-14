@@ -5,6 +5,7 @@ export interface IUnderlineOptions {
     token: string;
     prefixes: string[];
     owners?: string[];
+    listenForEdits?: boolean;
 }
 export declare class Underline {
     client: Client;
