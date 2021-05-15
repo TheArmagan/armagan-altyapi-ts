@@ -6,5 +6,8 @@ module.exports = new Command({
   onCommand(ctx) {
     console.log(ctx);
     ctx.msg.reply(`nsfwtest!`);
+  },
+  other: {
+    description: "This command only works in NSFW channels!"
   }
 });

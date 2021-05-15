@@ -8,12 +8,12 @@ interface ICommandClassArguments {
   nsfw?: boolean;
   name: string;
   aliases?: string[];
-  usages?: string[];
   enabled?: boolean;
   botOwnerOnly?: boolean;
   guildOwnerOnly?: boolean;
   requiredBotPermissions?: PermissionString[];
   requiredUserPermissions?: PermissionString[];
+  other?: {[key: string]: any};
 }
 
 interface IOnCommandArgument {
@@ -32,24 +32,24 @@ export class Command {
   nsfw?: boolean;
   name: string;
   aliases?: string[];
-  usages?: string[];
   enabled?: boolean;
   botOwnerOnly?: boolean;
   guildOwnerOnly?: boolean;
   requiredBotPermissions?: PermissionString[];
   requiredUserPermissions?: PermissionString[];
   filePath: string;
+  other: {[key: string]: any} = {};
   constructor(args: ICommandClassArguments) {
     this.onCommand = args.onCommand;
     this.onLoad = args.onLoad;
     this.nsfw = args.nsfw ?? false;
     this.name = args.name;
     this.aliases = args.aliases ?? [];
-    this.usages = args.usages ?? [];
     this.enabled = args.enabled ?? true;
     this.botOwnerOnly = args.botOwnerOnly ?? false;
     this.guildOwnerOnly = args.guildOwnerOnly ?? false;
     this.requiredBotPermissions = args.requiredBotPermissions ?? [];
     this.requiredUserPermissions = args.requiredUserPermissions ?? [];
+    this.other = args.other ?? {};
   }
 }

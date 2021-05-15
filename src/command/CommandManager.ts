@@ -71,7 +71,9 @@ export class CommandManager {
     let { prefixes } = this.ul.options;
     let isBotOwner = this.ul.options.owners.some(i => i == msg.author.id);
 
+    let isCommandFound = false;
     this.commands.forEach(async (cmd: Command) => {
+      if (isCommandFound) return;
       let args = plsParseArgs(msg.content);
 
       if (!cmd.enabled) return;
@@ -88,6 +90,8 @@ export class CommandManager {
       if (args._[0].length == 0) args._.shift();
 
       if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase())) return;
+
+      isCommandFound = true;
 
       if (cmd.botOwnerOnly && !isBotOwner) {
         return this.ul.options.messages.botOwnerOnlyMessage(msg);

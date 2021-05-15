@@ -1,7 +1,7 @@
 import { Underline } from "./src/Underline";
 
 const ul = new Underline({
-  token: "uwijs",
+  token: "nonono",
   prefixes: ["!", "abc!"],
   owners: ["707309693449535599"]
 });
