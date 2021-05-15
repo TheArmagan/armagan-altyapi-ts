@@ -23,6 +23,7 @@ interface IOnCommandArgument {
   prefix: string;
   setCoolDown(durationMs: number): any;
   isBotOwner: boolean;
+  cooldown: number;
 }
 
 export class Command {

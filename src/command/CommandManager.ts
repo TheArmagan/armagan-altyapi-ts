@@ -114,11 +114,12 @@ export class CommandManager {
       }
 
       let coolDownAt = (self.timeoutCache.get(`${msg.author.id}:${cmd.name}`) || 0);
+      let coolDownDuration = coolDownAt - Date.now();
       if (!(Date.now() > coolDownAt)) {
-        return this.ul.options.messages.cooldownMessage(msg, coolDownAt - Date.now());
+        return this.ul.options.messages.cooldownMessage(msg, coolDownDuration);
       }
 
-      cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix, isBotOwner, setCoolDown(durationMs=0) {
+      cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix, isBotOwner, cooldown: coolDownDuration, setCoolDown(durationMs=0) {
         self.timeoutCache.set(`${msg.author.id}:${cmd.name}`, Date.now() + durationMs);
         return true;
       } });
