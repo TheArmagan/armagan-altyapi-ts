@@ -1,9 +1,8 @@
 import { Underline } from "../Underline";
 import { readdir } from "fs/promises";
-import { resolve } from "path";
+import * as path from "path";
 import { Command } from "./Command";
 import { Message, TextChannel } from "discord.js";
-import * as path from "path";
 const chillout: any = require("chillout");
 import { plsParseArgs } from "plsargs";
 
@@ -29,10 +28,10 @@ export class CommandManager {
   #loadCommands = async () => {
     console.log(`Starting to load commands!`);
 
-    let commandFiles = await readdir(resolve(__dirname, "commands"));
+    let commandFiles = await readdir(path.resolve(__dirname, "commands"));
     commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js"));
     await chillout.forEach(commandFiles, async (commandFile: string) => {
-      let commandFilePath = resolve(__dirname, "commands", commandFile);
+      let commandFilePath = path.resolve(__dirname, "commands", commandFile);
       let cmd: Command = require(commandFilePath);
       cmd.filePath = commandFilePath;
       if (this.commands.has(cmd.name)) {
