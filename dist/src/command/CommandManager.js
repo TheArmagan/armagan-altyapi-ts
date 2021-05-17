@@ -18,20 +18,17 @@ var _loadCommands, _startMessageListener;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandManager = void 0;
 const promises_1 = require("fs/promises");
-const path_1 = require("path");
 const path = require("path");
 const chillout = require("chillout");
 const plsargs_1 = require("plsargs");
-const rfdcBase = require("rfdc");
-const rfdc = rfdcBase();
 class CommandManager {
     constructor(ul) {
         _loadCommands.set(this, () => __awaiter(this, void 0, void 0, function* () {
             console.log(`Starting to load commands!`);
-            let commandFiles = yield promises_1.readdir(path_1.resolve(__dirname, "commands"));
+            let commandFiles = yield promises_1.readdir(path.resolve(__dirname, "commands"));
             commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js"));
             yield chillout.forEach(commandFiles, (commandFile) => __awaiter(this, void 0, void 0, function* () {
-                let commandFilePath = path_1.resolve(__dirname, "commands", commandFile);
+                let commandFilePath = path.resolve(__dirname, "commands", commandFile);
                 let cmd = require(commandFilePath);
                 cmd.filePath = commandFilePath;
                 if (this.commands.has(cmd.name)) {
@@ -39,7 +36,7 @@ class CommandManager {
                     throw new Error(`A command already loaded with name "${cmd.name}". (${path.parse(ogCmd.filePath).base}, ${path.parse(commandFilePath).base})`);
                 }
                 if (typeof cmd.onCommand != "function")
-                    throw new TypeError(`Every command should have onCommand function. (${cmd.name})`);
+                    throw new TypeError(`Every command should have onCommand function. (NAME: ${cmd.name})`);
                 cmd.aliases.unshift(cmd.name);
                 this.commands.set(cmd.name, cmd);
                 if (typeof cmd.onLoad == "function")
@@ -61,6 +58,7 @@ class CommandManager {
         });
         this.ul = ul;
         this.commands = new Map();
+        this.timeoutCache = new Map();
     }
     init() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -69,12 +67,15 @@ class CommandManager {
         });
     }
     handleMessage(msg) {
+        let self = this;
         let { prefixes } = this.ul.options;
-        let argsOg = plsargs_1.plsParseArgs(msg.content);
+        let isBotOwner = this.ul.options.owners.some(i => i == msg.author.id);
+        let isCommandFound = false;
         this.commands.forEach((cmd) => __awaiter(this, void 0, void 0, function* () {
             var _a;
-            let args = rfdc(argsOg);
-            console.log(cmd);
+            if (isCommandFound)
+                return;
+            let args = plsargs_1.plsParseArgs(msg.content);
             if (!cmd.enabled)
                 return;
             let usedPrefix = "";
@@ -91,10 +92,31 @@ class CommandManager {
                 args._.shift();
             if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase()))
                 return;
-            if (cmd.nsfw && !((_a = msg.channel) === null || _a === void 0 ? void 0 : _a.nsfw)) {
-                return this.ul.options.message.nsfwRequiredMessage(msg);
+            isCommandFound = true;
+            if (cmd.botOwnerOnly && !isBotOwner) {
+                return this.ul.options.messages.botOwnerOnlyMessage(msg);
             }
-            cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix });
+            if (cmd.guildOwnerOnly && (msg.member.id == msg.guild.ownerID)) {
+                return this.ul.options.messages.botOwnerOnlyMessage(msg);
+            }
+            if (cmd.nsfw && !((_a = msg.channel) === null || _a === void 0 ? void 0 : _a.nsfw)) {
+                return this.ul.options.messages.nsfwRequiredMessage(msg);
+            }
+            if (cmd.requiredBotPermissions.length != 0 && cmd.requiredBotPermissions.some(i => !msg.guild.me.hasPermission(i, { checkAdmin: true, checkOwner: true }))) {
+                return this.ul.options.messages.botPermissionsRequiredMessage(msg, cmd.requiredBotPermissions);
+            }
+            if (cmd.requiredUserPermissions.length != 0 && cmd.requiredUserPermissions.some(i => !msg.member.hasPermission(i, { checkAdmin: true, checkOwner: true }))) {
+                return this.ul.options.messages.userPermissionsRequiredMessage(msg, cmd.requiredUserPermissions);
+            }
+            let coolDownAt = (self.timeoutCache.get(`${msg.author.id}:${cmd.name}`) || 0);
+            let coolDownDuration = coolDownAt - Date.now();
+            if (!(Date.now() > coolDownAt)) {
+                return this.ul.options.messages.cooldownMessage(msg, coolDownDuration);
+            }
+            cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix, isBotOwner, cooldown: coolDownDuration, setCoolDown(durationMs = 0) {
+                    self.timeoutCache.set(`${msg.author.id}:${cmd.name}`, Date.now() + durationMs);
+                    return true;
+                } });
         }));
     }
 }

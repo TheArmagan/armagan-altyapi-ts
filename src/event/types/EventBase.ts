@@ -27,6 +27,8 @@ export class EventBase {
 
   filePath: string;
 
+  other: { [key: string]: any } = {};
+
   constructor(name: string, id: string) {
     this.name = name;
     this.id = id;

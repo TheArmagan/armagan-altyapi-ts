@@ -1,3 +1,4 @@
+
 const { Command } = require("../types/Command");
 
 module.exports = new Command({
@@ -5,5 +6,7 @@ module.exports = new Command({
   onCommand(ctx) {
     console.log(ctx);
     ctx.msg.reply(`Example!`);
+
+
   }
 });

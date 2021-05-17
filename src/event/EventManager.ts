@@ -47,20 +47,33 @@ export class EventManager {
     console.log(`All events(${this.events.size}) successfully loaded!`);
   }
 
-  #startEventListeners = () => {
-    console.log("Starting to listen for the events!");
-
-    this.events.forEach((event, eventId) => {
-      this.ul.client.on(event.name, (...args) => {
-        this.handleEvent(eventId, args);
-      });
+  #startEventListeners = async () => {
+    console.log("Optimizing event listeners!");
+    let eventsToListen: Map<string, string[]> = new Map();
+    await chillout.forEach(Array.from(this.events.entries()), ([eventId, event]: [string, EventBase]) => {
+      if (!eventsToListen.has(event.name)) eventsToListen.set(event.name, []);
+      eventsToListen.get(event.name).push(eventId);
     });
 
+    console.log("Starting to listen for the events!");
+
+    await chillout.forEach(Array.from(eventsToListen.entries()), ([eventName, eventIds]: [string, string[]]) => {
+      console.log(`Event Name: ${eventName}, Listeners(${eventIds.length}): ${eventIds.join(", ")}`);
+      this.ul.client.on(eventName, (...args) => {
+        chillout.forEach(eventIds, (eventId) => {
+          this.handleEvent(eventId, args);
+        });
+      })
+    });
+
+    console.log("Started to listening for events!");
   }
 
   handleEvent(eventId: string, args: any[]) {
     let event = this.events.get(eventId);
-    return event.handleEventByArgs(args);
+    if (event.enabled) {
+      event.handleEventByArgs(args);
+    }
   }
 
 }

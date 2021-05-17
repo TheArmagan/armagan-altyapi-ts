@@ -1,4 +1,4 @@
-import { Client, ClientOptions, Message } from "discord.js";
+import { Client, ClientOptions, Message, PermissionString } from "discord.js";
 import { CommandManager } from "./command/CommandManager";
 import { EventManager } from "./event/EventManager";
 export interface IUnderlineOptions {
@@ -6,11 +6,15 @@ export interface IUnderlineOptions {
     prefixes: string[];
     owners?: string[];
     listenForEdits?: boolean;
-    message?: IUnderlineMessages;
+    messages?: IUnderlineMessages;
 }
 export interface IUnderlineMessages {
     cooldownMessage?(msg: Message, cooldown: number): any;
     nsfwRequiredMessage?(msg: Message): any;
+    botOwnerOnlyMessage?(msg: Message): any;
+    guildOwnerOnlyMessage?(msg: Message): any;
+    botPermissionsRequiredMessage?(msg: Message, perms: PermissionString[]): any;
+    userPermissionsRequiredMessage?(msg: Message, perms: PermissionString[]): any;
 }
 export declare class Underline {
     client: Client;
