@@ -19,7 +19,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandManager = void 0;
 const path = require("path");
 const chillout = require("chillout");
-const plsargs_1 = require("plsargs");
 const Log_1 = require("../other/Log");
 const recursiveReadDir = require("recursive-readdir");
 class CommandManager {
@@ -72,27 +71,28 @@ class CommandManager {
         let self = this;
         let { prefixes } = this.ul.options;
         let isBotOwner = this.ul.options.owners.some(i => i == msg.author.id);
+        let ogArgs = msg.cleanContent.split(/ |\n/).filter(i => i);
         let isCommandFound = false;
         this.commands.forEach((cmd) => __awaiter(this, void 0, void 0, function* () {
             var _a;
             if (isCommandFound)
                 return;
-            let args = plsargs_1.plsParseArgs(msg.content);
+            let args = [...ogArgs];
             if (!cmd.enabled)
                 return;
             let usedPrefix = "";
             yield chillout.forEach(prefixes, i => {
-                let prefix = args._[0].slice(0, i.length);
+                let prefix = args[0].slice(0, i.length);
                 if (prefix == i)
                     usedPrefix = i;
                 return prefix == i;
             });
             if (usedPrefix.length == 0)
                 return;
-            args._[0] = args._[0].slice(usedPrefix.length);
-            if (args._[0].length == 0)
-                args._.shift();
-            if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase()))
+            args[0] = args[0].slice(usedPrefix.length);
+            if (args[0].length == 0)
+                args.shift();
+            if (!cmd.aliases.some(i => args[0].toLowerCase() == i.toLowerCase()))
                 return;
             isCommandFound = true;
             if (cmd.botOwnerOnly && !isBotOwner) {

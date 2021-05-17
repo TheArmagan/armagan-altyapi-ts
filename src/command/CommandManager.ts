@@ -3,7 +3,6 @@ import * as path from "path";
 import { Command } from "./types/Command";
 import { Message, TextChannel } from "discord.js";
 const chillout: any = require("chillout");
-import { plsParseArgs } from "plsargs";
 import { Log } from "../other/Log";
 import * as recursiveReadDir from "recursive-readdir";
 
@@ -72,26 +71,27 @@ export class CommandManager {
     let self = this;
     let { prefixes } = this.ul.options;
     let isBotOwner = this.ul.options.owners.some(i => i == msg.author.id);
+    let ogArgs = msg.content.split(" ").filter(i => i.trim());
 
     let isCommandFound = false;
     this.commands.forEach(async (cmd: Command) => {
       if (isCommandFound) return;
-      let args = plsParseArgs(msg.content);
+      let args = [...ogArgs];
 
       if (!cmd.enabled) return;
 
       let usedPrefix = "";
       await chillout.forEach(prefixes, i => {
-        let prefix = args._[0].slice(0, i.length);
+        let prefix = args[0].slice(0, i.length);
         if (prefix == i) usedPrefix = i;
         return prefix == i;
       });
 
       if (usedPrefix.length == 0) return;
-      args._[0] = args._[0].slice(usedPrefix.length);
-      if (args._[0].length == 0) args._.shift();
+      args[0] = args[0].slice(usedPrefix.length);
+      if (args[0].length == 0) args.shift();
 
-      if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase())) return;
+      if (!cmd.aliases.some(i => args[0].toLowerCase() == i.toLowerCase())) return;
 
       isCommandFound = true;
 
@@ -121,10 +121,18 @@ export class CommandManager {
         return this.ul.options.messages.cooldownMessage(msg, coolDownDuration);
       }
 
-      cmd.onCommand({ args, msg, ul: this.ul, prefix: usedPrefix, isBotOwner, cooldown: coolDownDuration, setCoolDown(durationMs=0) {
-        self.timeoutCache.set(`${msg.author.id}:${cmd.name}`, Date.now() + durationMs);
-        return true;
-      } });
+      cmd.onCommand({
+        args,
+        msg,
+        ul: this.ul,
+        prefix: usedPrefix,
+        isBotOwner,
+        cooldown: coolDownDuration,
+        setCoolDown(durationMs = 0) {
+          self.timeoutCache.set(`${msg.author.id}:${cmd.name}`, Date.now() + durationMs);
+          return true;
+        }
+      });
 
     })
   }

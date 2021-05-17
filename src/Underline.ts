@@ -70,6 +70,7 @@ export class Underline {
   }
 
   async init() {
+    let startTime = Date.now();
     Log.info(`Initializing!`);
     Log.info(`Command manager initializing!`);
     await this.cm.init();
@@ -78,7 +79,10 @@ export class Underline {
     await this.em.init();
     Log.success(`Event manager initialized!`);
     await this.client.login(this.options.token);
+    let endTime = Date.now();
+    Log.info(`Underline loaded in ${endTime - startTime} milliseconds!`);
     Log.success(`Connected to discord. (User "${this.client.user.tag}")`);
+    
   }
 }
 

@@ -10,7 +10,6 @@
     "chillout": "^5.0.0",
     "deepmerge": "^4.2.2",
     "discord.js": "^12.5.3",
-    "plsargs": "^0.1.4",
     "recursive-readdir": "^2.2.2",
     "rfdc": "^1.3.0",
     "stuffs": "^0.1.1",
