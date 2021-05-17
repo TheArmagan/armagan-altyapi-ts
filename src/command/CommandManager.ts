@@ -5,6 +5,7 @@ import { Command } from "./types/Command";
 import { Message, TextChannel } from "discord.js";
 const chillout: any = require("chillout");
 import { plsParseArgs } from "plsargs";
+import { Log } from "../other/Log";
 
 
 export class CommandManager {
@@ -26,7 +27,7 @@ export class CommandManager {
   }
 
   #loadCommands = async () => {
-    console.log(`Starting to load commands!`);
+    Log.info(`Starting to load commands!`);
 
     let commandFiles = await readdir(path.resolve(__dirname, "commands"));
     commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js"));
@@ -45,14 +46,14 @@ export class CommandManager {
       this.commands.set(cmd.name, cmd);
 
       if (typeof cmd.onLoad == "function") await cmd.onLoad(this.ul);
-      console.log(`Command "${cmd.name}" is loaded!`);
+      Log.success(`Command "${cmd.name}" is loaded!`);
     });
 
-    console.log(`All commands(${this.commands.size}) successfully loaded!`);
+    Log.success(`All commands(${this.commands.size}) successfully loaded!`);
   }
 
   #startMessageListener = () => {
-    console.log("Starting to listen for the commands!");
+    Log.info("Starting to listen for the commands!");
 
     this.ul.client.on("message", (msg) => {
       this.handleMessage(msg);
@@ -63,6 +64,8 @@ export class CommandManager {
         this.handleMessage(newMsg as Message);
       })
     }
+    
+    Log.success("Started to listen for the commands!");
   }
 
   handleMessage(msg: Message) {

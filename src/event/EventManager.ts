@@ -2,6 +2,7 @@ import { Underline } from "../Underline";
 import { readdir } from "fs/promises";
 import * as path from "path";
 import { EventBase } from "./types/EventBase";
+import { Log } from "../other/Log";
 const chillout: any = require("chillout");
 
 export class EventManager {
@@ -19,7 +20,7 @@ export class EventManager {
   }
 
   #loadCommands = async () => {
-    console.log(`Starting to load events!`);
+    Log.info(`Starting to load events!`);
 
     let eventFiles = await readdir(path.resolve(__dirname, "events"));
     eventFiles = eventFiles.filter(i => i.toLowerCase().endsWith(".js"));
@@ -41,24 +42,24 @@ export class EventManager {
 
       if (typeof evt.onLoad == "function") await evt.onLoad(this.ul);
       
-      console.log(`Event "${evt.id}" is loaded!`);
+      Log.success(`Event "${evt.id}" is loaded!`);
     });
 
-    console.log(`All events(${this.events.size}) successfully loaded!`);
+    Log.success(`All events(${this.events.size}) successfully loaded!`);
   }
 
   #startEventListeners = async () => {
-    console.log("Optimizing event listeners!");
+    Log.info("Optimizing event listeners!");
     let eventsToListen: Map<string, string[]> = new Map();
     await chillout.forEach(Array.from(this.events.entries()), ([eventId, event]: [string, EventBase]) => {
       if (!eventsToListen.has(event.name)) eventsToListen.set(event.name, []);
       eventsToListen.get(event.name).push(eventId);
     });
 
-    console.log("Starting to listen for the events!");
+    Log.info("Starting to listen for the events!");
 
     await chillout.forEach(Array.from(eventsToListen.entries()), ([eventName, eventIds]: [string, string[]]) => {
-      console.log(`Event Name: ${eventName}, Listeners(${eventIds.length}): ${eventIds.join(", ")}`);
+      Log.info(`Event Name: ${eventName}, Listeners(${eventIds.length}): ${eventIds.join(", ")}`);
       this.ul.client.on(eventName, (...args) => {
         chillout.forEach(eventIds, (eventId) => {
           this.handleEvent(eventId, args);
@@ -66,7 +67,7 @@ export class EventManager {
       })
     });
 
-    console.log("Started to listening for events!");
+    Log.success("Started to listening for events!");
   }
 
   handleEvent(eventId: string, args: any[]) {

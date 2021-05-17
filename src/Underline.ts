@@ -2,6 +2,7 @@ import {Client, ClientOptions, Message, PermissionString} from "discord.js"
 import { CommandManager } from "./command/CommandManager";
 import { EventManager } from "./event/EventManager";
 import { DefaultMessages } from "./other/DefaultMessages";
+import { Log } from "./other/Log";
 
 export interface IUnderlineOptions {
   token: string;
@@ -69,13 +70,15 @@ export class Underline {
   }
 
   async init() {
-    console.log(`Initializing!`);
+    Log.info(`Initializing!`);
+    Log.info(`Command manager initializing!`);
     await this.cm.init();
-    console.log(`Command manager initialized!`);
+    Log.success(`Command manager initialized!`);
+    Log.info(`Event manager initializing!`);
     await this.em.init();
-    console.log(`Event manager initialized!`);
+    Log.success(`Event manager initialized!`);
     await this.client.login(this.options.token);
-    console.log(`Connected to discord. (User "${this.client.user.tag}")`);
+    Log.success(`Connected to discord. (User "${this.client.user.tag}")`);
   }
 }
 

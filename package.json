@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "chalk": "^4.1.1",
     "chillout": "^5.0.0",
     "deepmerge": "^4.2.2",
     "discord.js": "^12.5.3",
@@ -28,6 +29,7 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/deepmerge": "^2.2.0",
     "@types/node": "^15.0.3",
     "@types/ws": "^7.4.4"
