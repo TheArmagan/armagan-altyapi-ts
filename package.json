@@ -1,11 +1,9 @@
 {
   "name": "armagan-altyapi-ts",
   "version": "1.0.0",
-  "main": "./lib/index.js",
-  "author": {
-    "name": "Kıraç Armağan Önal"
-  },
-  "license": "MIT",
+  "main": "./dist/index.js",
+  "author": "Kıraç Armağan Önal",
+  "license": "GPLV3",
   "private": true,
   "dependencies": {
     "chalk": "^4.1.1",
@@ -35,5 +33,6 @@
     "@types/node": "^15.0.3",
     "@types/recursive-readdir": "^2.2.0",
     "@types/ws": "^7.4.4"
-  }
+  },
+  "repository": "https://github.com/TheArmagan/armagan-altyapi-ts.git"
 }
