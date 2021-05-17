@@ -9,6 +9,7 @@ export interface IUnderlineOptions {
   owners?: string[];
   listenForEdits?: boolean;
   messages?: IUnderlineMessages;
+  other?: { [key: string]: any };
 }
 
 export interface IUnderlineMessages {
@@ -59,8 +60,8 @@ export class Underline {
         userPermissionsRequiredMessage:
           underlineOptions?.messages?.userPermissionsRequiredMessage
           ?? DefaultMessages.userPermissionsRequiredMessage,
-        
-      }
+      },
+      other: underlineOptions.other ?? {}
     };
     this.client = new Client(clientOptions);
     this.cm = new CommandManager(this);
