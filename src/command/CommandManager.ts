@@ -1,12 +1,11 @@
 import { Underline } from "../Underline";
-import { readdir } from "fs/promises";
 import * as path from "path";
 import { Command } from "./types/Command";
 import { Message, TextChannel } from "discord.js";
 const chillout: any = require("chillout");
 import { plsParseArgs } from "plsargs";
 import { Log } from "../other/Log";
-
+import * as recursiveReadDir from "recursive-readdir";
 
 export class CommandManager {
 
@@ -29,7 +28,8 @@ export class CommandManager {
   #loadCommands = async () => {
     Log.info(`Starting to load commands!`);
 
-    let commandFiles = await readdir(path.resolve(__dirname, "commands"));
+    let commandFiles = await recursiveReadDir(path.resolve(__dirname, "commands"));
+
     commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js"));
     await chillout.forEach(commandFiles, async (commandFile: string) => {
       let commandFilePath = path.resolve(__dirname, "commands", commandFile);
@@ -64,7 +64,7 @@ export class CommandManager {
         this.handleMessage(newMsg as Message);
       })
     }
-    
+
     Log.success("Started to listen for the commands!");
   }
 

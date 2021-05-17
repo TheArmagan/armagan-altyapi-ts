@@ -1,9 +1,9 @@
 import { Underline } from "../Underline";
-import { readdir } from "fs/promises";
 import * as path from "path";
 import { EventBase } from "./types/EventBase";
 import { Log } from "../other/Log";
 const chillout: any = require("chillout");
+import * as recursiveReadDir from "recursive-readdir";
 
 export class EventManager {
   ul: Underline;
@@ -22,7 +22,8 @@ export class EventManager {
   #loadCommands = async () => {
     Log.info(`Starting to load events!`);
 
-    let eventFiles = await readdir(path.resolve(__dirname, "events"));
+    let eventFiles = await recursiveReadDir(path.resolve(__dirname, "events"));
+
     eventFiles = eventFiles.filter(i => i.toLowerCase().endsWith(".js"));
     await chillout.forEach(eventFiles, async (eventFile: string) => {
 
