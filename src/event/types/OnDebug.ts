@@ -20,5 +20,9 @@ export class OnDebug extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ info: args[0] });
+    }
   }
 };

@@ -1,4 +1,4 @@
-import { GuildMember } from "discord.js";
+import { Presence } from "discord.js";
 import { EventBase, IEventArgumentBase } from "./EventBase";
 
 
@@ -7,8 +7,8 @@ interface IClassArguments extends IEventArgumentBase {
 }
 
 interface IOnEventArguments {
-    newMember: GuildMember;
-    oldMember?: GuildMember;
+    newPresence: Presence;
+    oldPresence?: Presence;
 }
 
 
@@ -22,5 +22,9 @@ export class OnPresenceUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldPresence: args[0], newPresence: args[1] });
+    }
   }
 };

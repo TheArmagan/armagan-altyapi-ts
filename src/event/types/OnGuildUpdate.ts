@@ -22,5 +22,9 @@ export class OnGuildUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldGuild: args[0], newGuild: args[1] });
+    }
   }
 };

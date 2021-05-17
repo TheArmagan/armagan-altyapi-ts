@@ -15,6 +15,8 @@ export class EventBase {
 
   onEvent: (ctx: any) => any;
 
+  handleEventByArgs: (args: any[]) => any;
+
   onLoad?: (ul: Underline) => any;
 
   name: string;

@@ -21,5 +21,11 @@ export class OnShardResume extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ id: args[0], replayedEvents: args[1] });
+    }
+
   }
+
 };

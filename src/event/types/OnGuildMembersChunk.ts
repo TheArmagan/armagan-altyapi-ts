@@ -22,5 +22,9 @@ export class OnGuildMembersChunk extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ guild: args[0], members: args[1], chunk: args[2] });
+    }
   }
 };

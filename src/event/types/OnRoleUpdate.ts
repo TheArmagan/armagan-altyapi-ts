@@ -22,5 +22,9 @@ export class OnRoleUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldRole: args[0], newRole: args[1] });
+    }
   }
 };

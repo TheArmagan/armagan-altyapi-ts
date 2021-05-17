@@ -1,4 +1,4 @@
-import { GuildMember } from "discord.js";
+import { VoiceState } from "discord.js";
 import { EventBase, IEventArgumentBase } from "./EventBase";
 
 
@@ -7,8 +7,8 @@ interface IClassArguments extends IEventArgumentBase {
 }
 
 interface IOnEventArguments {
-  newMember: GuildMember;
-  oldMember: GuildMember;
+  newState: VoiceState;
+  oldState: VoiceState;
 }
 
 
@@ -22,5 +22,9 @@ export class OnVoiceStateUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldState: args[0], newState: args[1] });
+    }
   }
 };

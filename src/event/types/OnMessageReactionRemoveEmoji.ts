@@ -1,4 +1,4 @@
-import { User, Channel } from "discord.js";
+import { MessageReaction } from "discord.js";
 import { EventBase, IEventArgumentBase } from "./EventBase";
 
 
@@ -7,20 +7,22 @@ interface IClassArguments extends IEventArgumentBase {
 }
 
 interface IOnEventArguments {
-  channel: Channel;
-  user: User;
+    reaction: MessageReaction;
 }
 
-
-export class OnTypingStop extends EventBase {
+export class OnMessageReactionRemoveEmoji extends EventBase {
   
   onEvent: (ctx: IOnEventArguments) => any;
   
   constructor(args: IClassArguments) {
-    super("typingStop", args.id);
+    super("messageReactionRemoveEmoji", args.id);
 
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ reaction: args[0] });
+    }
   }
 };

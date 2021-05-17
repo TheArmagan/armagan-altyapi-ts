@@ -20,5 +20,9 @@ export class OnReady extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = ()=>{
+      return this.onEvent({});
+    }
   }
 };

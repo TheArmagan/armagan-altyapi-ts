@@ -22,5 +22,9 @@ export class OnMessageUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldMessage: args[0], newMessage: args[0] });
+    }
   }
 };

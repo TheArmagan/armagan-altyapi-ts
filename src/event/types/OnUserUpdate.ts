@@ -22,5 +22,9 @@ export class OnUserUpdate extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ oldUser: args[0], newUser: args[1] });
+    }
   }
 };

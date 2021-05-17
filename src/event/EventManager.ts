@@ -10,6 +10,7 @@ export class EventManager {
 
   constructor(ul: Underline) {
     this.ul = ul;
+    this.events = new Map();
   }
 
   async init() {
@@ -54,11 +55,12 @@ export class EventManager {
         this.handleEvent(eventId, args);
       });
     });
-    
+
   }
 
   handleEvent(eventId: string, args: any[]) {
-    this.events.get(eventId).onEvent(args);
+    let event = this.events.get(eventId);
+    return event.handleEventByArgs(args);
   }
 
 }

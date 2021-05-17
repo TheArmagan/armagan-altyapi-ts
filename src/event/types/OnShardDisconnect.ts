@@ -22,5 +22,9 @@ export class OnShardDisconnect extends EventBase {
     this.onEvent = args.onEvent;
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
+
+    this.handleEventByArgs = (args)=>{
+      return this.onEvent({ event: args[0], id: args[1] });
+    }
   }
 };
