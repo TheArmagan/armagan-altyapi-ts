@@ -1,4 +1,4 @@
-const { Command } = require("../Command");
+const { Command } = require("../types/Command");
 
 module.exports = new Command({
   name: "example",

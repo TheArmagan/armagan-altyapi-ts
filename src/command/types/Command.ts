@@ -1,6 +1,6 @@
 import { Message, PermissionString } from "discord.js";
 import { Result } from "plsargs/src/Result";
-import { Underline } from "../Underline";
+import { Underline } from "../../Underline";
 
 interface ICommandClassArguments {
   onCommand(ctx: IOnCommandArgument): any;

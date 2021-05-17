@@ -1,7 +1,7 @@
 import { Underline } from "../Underline";
 import { readdir } from "fs/promises";
 import * as path from "path";
-import { Command } from "./Command";
+import { Command } from "./types/Command";
 import { Message, TextChannel } from "discord.js";
 const chillout: any = require("chillout");
 import { plsParseArgs } from "plsargs";
@@ -38,7 +38,7 @@ export class CommandManager {
         let ogCmd = this.commands.get(cmd.name);
         throw new Error(`A command already loaded with name "${cmd.name}". (${path.parse(ogCmd.filePath).base}, ${path.parse(commandFilePath).base})`);
       }
-      if (typeof cmd.onCommand != "function") throw new TypeError(`Every command should have onCommand function. (${cmd.name})`);
+      if (typeof cmd.onCommand != "function") throw new TypeError(`Every command should have onCommand function. (NAME: ${cmd.name})`);
 
       cmd.aliases.unshift(cmd.name);
 

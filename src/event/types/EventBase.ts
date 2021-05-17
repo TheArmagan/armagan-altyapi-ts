@@ -23,6 +23,8 @@ export class EventBase {
 
   id: string;
 
+  filePath: string;
+
   constructor(name: string, id: string) {
     this.name = name;
     this.id = id;
