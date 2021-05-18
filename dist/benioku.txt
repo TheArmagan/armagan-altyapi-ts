@@ -1,4 +1,0 @@
-Komutlarınızı "src/command/commands" klösürüne ekeleyebilirsiniz. İç içe klasöre açma destesteği bulnamkatadır.
-Olaylarınızı "src/event/events" klösürüne ekeleyebilirsiniz. İç içe klasöre açma destesteği bulnamkatadır.
-Bot ayarlarını index.js içerisinde yapabilirsiniz.
-Botu başlatmadan önce ("ul.init();") istediklerini yapabilrisiniz.
