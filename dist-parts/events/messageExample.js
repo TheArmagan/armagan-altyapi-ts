@@ -1,4 +1,4 @@
-const { OnMessage } = require("../events/messageExample");
+const { OnMessage } = require("../types/OnMessage");
 
 module.exports = new OnMessage({
   id: "messageExample",
