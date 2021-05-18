@@ -2,8 +2,8 @@
  Armağan'ın kendi discord bot alt yapısı. Şu anlık typescript ile yazılmış türkiyedeki en gelişmiş discord bot alt yapısıdır.
 
 ## Gerekenler:
-  - Node Versiyon >=v14.16.0
-  - Yarn >=v1.22.10
+  - Node Versiyon LTS >=v14.16.0 (`https://nodejs.org/en/download/`)
+  - Yarn >=v1.22.10 (`npm i -g yarn`)
   - Discord.JS ==v12.5.0
 
 # Kullanım:
