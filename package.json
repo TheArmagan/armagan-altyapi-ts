@@ -1,6 +1,6 @@
 {
   "name": "armagan-altyapi-ts",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "./index.ts",
   "author": "Kıraç Armağan Önal",
   "license": "GPL-V3",
