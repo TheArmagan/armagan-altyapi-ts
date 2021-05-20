@@ -13,6 +13,8 @@ export interface IEventArgumentBase {
 
 export interface IOnEventArgumentsBase {
   ul: Underline;
+
+  [key: string]: any;
 }
 
 export class EventBase {
