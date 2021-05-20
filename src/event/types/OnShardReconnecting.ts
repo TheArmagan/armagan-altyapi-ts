@@ -1,11 +1,11 @@
-import { EventBase, IEventArgumentBase } from "./EventBase";
+import { EventBase, IEventArgumentBase, IOnEventArgumentsBase } from "./EventBase";
 
 
 interface IClassArguments extends IEventArgumentBase {
   onEvent(ctx: IOnEventArguments): any;
 }
 
-interface IOnEventArguments {
+interface IOnEventArguments extends IOnEventArgumentsBase {
   id: Number;
 
 }
@@ -22,8 +22,8 @@ export class OnShardReconnecting extends EventBase {
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
 
-    this.handleEventByArgs = (args)=>{
-      return this.onEvent({ id: args[0] });
+    this.handleEventByArgs = (args, ul)=>{
+      return this.onEvent({ id: args[0], ul });
     }
   }
 };

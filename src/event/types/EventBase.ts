@@ -11,11 +11,15 @@ export interface IEventArgumentBase {
   id: string;
 }
 
+export interface IOnEventArgumentsBase {
+  ul: Underline;
+}
+
 export class EventBase {
 
   onEvent: (ctx: any) => any;
 
-  handleEventByArgs: (args: any[]) => any;
+  handleEventByArgs: (args: any[], ul: Underline) => any;
 
   onLoad?: (ul: Underline) => any;
 

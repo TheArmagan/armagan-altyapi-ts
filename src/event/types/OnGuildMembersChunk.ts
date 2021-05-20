@@ -1,12 +1,12 @@
 import { Collection, Guild, GuildMember, Snowflake } from "discord.js";
-import { EventBase, IEventArgumentBase } from "./EventBase";
+import { EventBase, IEventArgumentBase, IOnEventArgumentsBase } from "./EventBase";
 
 
 interface IClassArguments extends IEventArgumentBase {
   onEvent(ctx: IOnEventArguments): any;
 }
 
-interface IOnEventArguments {
+interface IOnEventArguments extends IOnEventArgumentsBase {
   members: Collection<Snowflake, GuildMember>;
   guild: Guild;
   chunk: {index: number, count: number, nonce?: string}
@@ -23,8 +23,8 @@ export class OnGuildMembersChunk extends EventBase {
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
 
-    this.handleEventByArgs = (args)=>{
-      return this.onEvent({ guild: args[0], members: args[1], chunk: args[2] });
+    this.handleEventByArgs = (args, ul)=>{
+      return this.onEvent({ guild: args[0], members: args[1], chunk: args[2], ul });
     }
   }
 };

@@ -1,12 +1,12 @@
 import { Guild } from "discord.js";
-import { EventBase, IEventArgumentBase } from "./EventBase";
+import { EventBase, IEventArgumentBase, IOnEventArgumentsBase } from "./EventBase";
 
 
 interface IClassArguments extends IEventArgumentBase {
   onEvent(ctx: IOnEventArguments): any;
 }
 
-interface IOnEventArguments {
+interface IOnEventArguments extends IOnEventArgumentsBase {
   newGuild: Guild;
   oldGuild: Guild;
 }
@@ -23,8 +23,8 @@ export class OnGuildUpdate extends EventBase {
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
 
-    this.handleEventByArgs = (args)=>{
-      return this.onEvent({ oldGuild: args[0], newGuild: args[1] });
+    this.handleEventByArgs = (args, ul)=>{
+      return this.onEvent({ oldGuild: args[0], newGuild: args[1], ul });
     }
   }
 };

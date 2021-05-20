@@ -74,7 +74,7 @@ export class EventManager {
   handleEvent(eventId: string, args: any[]) {
     let event = this.events.get(eventId);
     if (event.enabled) {
-      event.handleEventByArgs(args);
+      event.handleEventByArgs(args, this.ul);
     }
   }
 

@@ -19,7 +19,7 @@ const asyncNcp = util.promisify(ncp);
   await copyTo("./dist-parts/.gitignore", "./dist/.gitignore");
   await copyTo("./dist-parts/commands", "./dist/src/command/commands");
   await copyTo("./dist-parts/events", "./dist/src/event/events");
-  await copyTo("./package.json", "./dist/package.json");
+  await copyTo("./dist-parts/package.json", "./dist/package.json");
   await copyTo("./LICENSE", "./dist/LICENSE");
   console.log("BILGI: Altyapının çalışması için gerekli modüller indiriliyor. (Bu işlem biraz sürebilir.)");
   await asyncExec(`cmd /c "yarn install"`, { cwd: resolve(__dirname, "dist") });

@@ -1,11 +1,11 @@
-import { EventBase, IEventArgumentBase } from "./EventBase";
+import { EventBase, IEventArgumentBase, IOnEventArgumentsBase } from "./EventBase";
 
 
 interface IClassArguments extends IEventArgumentBase {
   onEvent(ctx: IOnEventArguments): any;
 }
 
-interface IOnEventArguments {
+interface IOnEventArguments extends IOnEventArgumentsBase {
   rateLimitInfo: {timeout: number, limit: number, method: string, path: string, route: string};
 }
 
@@ -21,8 +21,8 @@ export class OnRateLimit extends EventBase {
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
 
-    this.handleEventByArgs = (args)=>{
-      return this.onEvent({ rateLimitInfo: args[0] });
+    this.handleEventByArgs = (args, ul)=>{
+      return this.onEvent({ rateLimitInfo: args[0], ul });
     }
   }
 };

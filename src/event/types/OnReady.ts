@@ -1,11 +1,11 @@
-import { EventBase, IEventArgumentBase } from "./EventBase";
+import { EventBase, IEventArgumentBase, IOnEventArgumentsBase } from "./EventBase";
 
 
 interface IClassArguments extends IEventArgumentBase {
   onEvent(ctx: IOnEventArguments): any;
 }
 
-interface IOnEventArguments {
+interface IOnEventArguments extends IOnEventArgumentsBase {
 
 }
 
@@ -21,8 +21,8 @@ export class OnReady extends EventBase {
     this.onLoad = args.onLoad;
     this.enabled = args.enabled ?? true;
 
-    this.handleEventByArgs = ()=>{
-      return this.onEvent({});
+    this.handleEventByArgs = (_, ul)=>{
+      return this.onEvent({ul});
     }
   }
 };
