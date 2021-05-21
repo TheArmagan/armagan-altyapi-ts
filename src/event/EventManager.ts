@@ -23,7 +23,7 @@ export class EventManager {
     Log.info(`Starting to load events!`);
 
     let eventFiles = await recursiveReadDir(path.resolve(__dirname, "events"));
-    eventFiles = eventFiles.filter(i => i.toLowerCase().endsWith(".js") && !i.startsWith("-"));
+    eventFiles = eventFiles.filter(i => i.toLowerCase().endsWith(".js") && !path.parse(i).name.startsWith("-"));
     await chillout.forEach(eventFiles, async (eventFile: string) => {
 
       let eventFilePath = path.resolve(__dirname, "events", eventFile);

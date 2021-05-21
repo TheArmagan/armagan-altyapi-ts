@@ -26,7 +26,8 @@
     "@types/ncp": "^2.0.4",
     "@types/node": "^15.0.3",
     "@types/recursive-readdir": "^2.2.0",
-    "@types/ws": "^7.4.4"
+    "@types/ws": "^7.4.4",
+    "plsargs": "^0.1.6"
   },
   "repository": "https://github.com/TheArmagan/armagan-altyapi-ts.git"
 }

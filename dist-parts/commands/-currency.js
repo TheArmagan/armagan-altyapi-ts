@@ -23,6 +23,7 @@ module.exports = new Command({
     embed.setColor("GREEN");
     embed.setTitle(`__\`${from}\` kurundan diğer tüm kurlar \`${val}\` değerinde:__`);
     msg.channel.send(embed);
+    return null;
   },
   aliases: ["kur", "parabirimi"],
   other: {
