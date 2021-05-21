@@ -8,6 +8,10 @@
 
 # Kullanım:
 
+ 
+  Kullanımı anlatan bir video çektim ek olarak bir adet komut ve event de yapıyorum şuradan izleyebilirsiniz: https://www.youtube.com/watch?v=u_YtZH1yp4g
+  
+  
   - Bu repoyu indirdikten sonra proje konumunda bir konsol açıp `yarn install` yazınız daha sonrasında ise `yarn derle` yazarak projeyi kullanıma hazır bir hale derleyiniz.
   - Artık `./dist` klasöürüne beşka bir yere kopyalayarak işinize devam edebilirsiniz.
   - `./dist` içerisinde `index.js` dosyasından botun ayarlarını yapabilirsiniz.
@@ -18,3 +22,4 @@
   - `index.js` içerisinde `ul.init()`'den önce botunuza başka özellikleride aktifleştirebilisiniz.
   
 
+Lütfen projeyi beğendiyeseniz projeye yıldız bırkamayı lütfen unutmayın benim için çok önemli teşekkürler :)
