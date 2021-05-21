@@ -29,7 +29,7 @@ export class CommandManager {
 
     let commandFiles = await recursiveReadDir(path.resolve(__dirname, "commands"));
 
-    commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js"));
+    commandFiles = commandFiles.filter(i => i.toLowerCase().endsWith(".js") && !i.startsWith("-"));
     await chillout.forEach(commandFiles, async (commandFile: string) => {
       let commandFilePath = path.resolve(__dirname, "commands", commandFile);
       let cmd: Command = require(commandFilePath);
