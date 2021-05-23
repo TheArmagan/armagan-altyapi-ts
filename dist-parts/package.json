@@ -10,12 +10,9 @@
     "chillout": "^5.0.0",
     "discord.js": "^12.5.3",
     "recursive-readdir": "^2.2.2",
-    "stuffs": "^0.1.1"
+    "stuffs": "^0.1.1",
+    "plsargs": "^0.1.6"
   },
-  "files": [
-    "./bin/*",
-    "./lib/*"
-  ],
   "scripts": {
     "start": "node index.js"
   },
