@@ -5,6 +5,7 @@ import { Message, TextChannel } from "discord.js";
 const chillout: any = require("chillout");
 import { Log } from "../other/Log";
 import * as recursiveReadDir from "recursive-readdir";
+import * as plsArgs from "plsargs";
 
 export class CommandManager {
 
@@ -71,27 +72,27 @@ export class CommandManager {
     let self = this;
     let { prefixes } = this.ul.options;
     let isBotOwner = this.ul.options.owners.some(i => i == msg.author.id);
-    let ogArgs = msg.content.split(" ").filter(i => i.trim());
+    let ogArgs = plsArgs.plsParseArgs(msg.cleanContent);
 
     let isCommandFound = false;
     this.commands.forEach(async (cmd: Command) => {
       if (isCommandFound) return;
-      let args = [...ogArgs];
+      let args = ogArgs.clone();
 
       if (!cmd.enabled) return;
 
       let usedPrefix = "";
       await chillout.forEach(prefixes, i => {
-        let prefix = args[0].slice(0, i.length);
+        let prefix = args._[0].slice(0, i.length);
         if (prefix == i) usedPrefix = i;
         return prefix == i;
       });
 
       if (usedPrefix.length == 0) return;
-      args[0] = args[0].slice(usedPrefix.length);
-      if (args[0].length == 0) args.shift();
+      args._[0] = args._[0].slice(usedPrefix.length);
+      if (args._[0].length == 0) args._.shift();
 
-      if (!cmd.aliases.some(i => args[0].toLowerCase() == i.toLowerCase())) return;
+      if (!cmd.aliases.some(i => args._[0].toLowerCase() == i.toLowerCase())) return;
 
       isCommandFound = true;
 

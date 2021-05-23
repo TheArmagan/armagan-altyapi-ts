@@ -1,5 +1,6 @@
 import { Message, PermissionString } from "discord.js";
 import { Underline } from "../../Underline";
+import { Result } from "plsargs/src/Result";
 
 interface ICommandClassArguments {
   onCommand(ctx: IOnCommandArgument): any;
@@ -17,7 +18,7 @@ interface ICommandClassArguments {
 
 interface IOnCommandArgument {
   msg: Message;
-  args: string[];
+  args: Result;
   ul: Underline;
   prefix: string;
   setCoolDown(durationMs: number): any;
